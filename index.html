@@ -1,0 +1,1150 @@
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ruang Matematika - Bangun Ruang Sisi Datar</title>
+    <!-- Google Fonts: Poppins -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['Poppins', 'sans-serif'] },
+                    colors: {
+                        primary: '#4f46e5',
+                        secondary: '#0ea5e9',
+                        dark: '#0f172a',
+                        darkCard: '#1e293b'
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    
+    <style>
+        /* Custom Styles & Animations */
+        body { font-family: 'Poppins', sans-serif; transition: background-color 0.3s, color 0.3s; }
+        
+        /* Scrollbar */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
+        .dark ::-webkit-scrollbar-thumb { background: #475569; }
+        
+        /* Animations */
+        .fade-in { animation: fadeIn 0.5s ease-out forwards; }
+        .slide-up { animation: slideUp 0.5s ease-out forwards; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        
+        /* Hover Effects */
+        .hover-card { transition: all 0.3s ease; }
+        .hover-card:hover { transform: translateY(-5px); box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1); }
+        .dark .hover-card:hover { box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.5); }
+
+        /* Glassmorphism */
+        .glass { background: rgba(255, 255, 255, 0.85); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); }
+        .dark .glass { background: rgba(30, 41, 59, 0.85); border: 1px solid rgba(255,255,255,0.05); }
+
+        /* Hide elements */
+        .hidden-section { display: none; }
+        
+        /* SVG Shapes Animations */
+        .shape-svg { filter: drop-shadow(0px 10px 8px rgba(0,0,0,0.15)); transition: transform 0.5s; }
+        .shape-svg:hover { transform: scale(1.05) rotate(2deg); }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 dark:bg-dark dark:text-slate-200 antialiased overflow-x-hidden selection:bg-primary selection:text-white">
+
+    <!-- LOGIN SCREEN -->
+    <div id="loginScreen" class="fixed inset-0 z-[70] flex items-center justify-center bg-gradient-to-br from-indigo-500 via-purple-500 to-teal-400 dark:from-indigo-900 dark:via-purple-900 dark:to-teal-900 px-4">
+        <div class="bg-white dark:bg-darkCard p-8 rounded-2xl shadow-2xl w-full max-w-md slide-up border border-white/20">
+            <div class="text-center mb-8">
+                <div class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-indigo-100 dark:bg-indigo-900/50 mb-4 text-primary dark:text-indigo-400">
+                    <i data-lucide="box" class="w-8 h-8"></i>
+                </div>
+                <h1 class="text-2xl font-bold text-slate-800 dark:text-white">Ruang Matematika</h1>
+                <p class="text-slate-500 dark:text-slate-400 text-sm mt-1">Bangun Ruang Sisi Datar Kelas 8</p>
+            </div>
+            <form id="loginForm" class="space-y-5">
+                <div>
+                    <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">Nama Lengkap</label>
+                    <input type="text" id="inputNama" required placeholder="Masukkan nama kamu" class="w-full px-4 py-3 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all dark:text-white">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">Asal Sekolah</label>
+                    <input type="text" id="inputSekolah" required placeholder="Contoh: SMPN 1 Maju Jaya" class="w-full px-4 py-3 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all dark:text-white">
+                </div>
+                <button type="submit" class="w-full py-3 px-4 bg-gradient-to-r from-primary to-secondary text-white font-semibold rounded-xl hover:shadow-lg hover:shadow-primary/30 active:scale-95 transition-all flex justify-center items-center gap-2">
+                    Mulai Belajar <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- IMAGE MODAL (POPUP GAMBAR) -->
+    <div id="imageModal" class="hidden fixed inset-0 z-[80] flex items-center justify-center p-4">
+        <!-- Backdrop -->
+        <div class="absolute inset-0 bg-slate-900/70 backdrop-blur-sm transition-opacity" onclick="closeImageModal()"></div>
+        
+        <!-- Modal Content -->
+        <div class="bg-white dark:bg-darkCard rounded-3xl shadow-2xl w-full max-w-2xl relative z-10 overflow-hidden slide-up border border-slate-200 dark:border-slate-700">
+            <!-- Header -->
+            <div class="flex justify-between items-center p-4 md:p-5 border-b border-slate-100 dark:border-slate-800">
+                <h3 class="font-bold text-lg text-slate-800 dark:text-white flex items-center gap-2">
+                    <i data-lucide="camera" class="w-5 h-5 text-primary"></i> <span id="modalImageTitle">Judul Gambar</span>
+                </h3>
+                <button onclick="closeImageModal()" class="p-2 bg-slate-100 hover:bg-red-100 text-slate-500 hover:text-red-500 dark:bg-slate-800 dark:hover:bg-red-900/30 rounded-full transition-colors">
+                    <i data-lucide="x" class="w-5 h-5"></i>
+                </button>
+            </div>
+            <!-- Image Area -->
+            <div class="p-4 md:p-6 bg-slate-50 dark:bg-slate-900/80 flex justify-center items-center min-h-[300px] relative">
+                <!-- Loading Indicator -->
+                <div id="modalLoading" class="absolute inset-0 flex flex-col items-center justify-center text-primary">
+                    <i data-lucide="loader-2" class="w-8 h-8 animate-spin mb-2"></i>
+                    <span class="text-sm font-medium">Memuat gambar...</span>
+                </div>
+                <!-- The Image -->
+                <img id="modalImage" src="" alt="Contoh visual" class="max-w-full max-h-[60vh] object-contain rounded-xl shadow-md hidden" 
+                     onload="this.classList.remove('hidden'); document.getElementById('modalLoading').classList.add('hidden');" 
+                     onerror="this.onerror=null; this.src='https://placehold.co/600x400/e2e8f0/475569?text=Gambar+Gagal+Dimuat'; this.classList.remove('hidden'); document.getElementById('modalLoading').classList.add('hidden');">
+            </div>
+        </div>
+    </div>
+
+    <!-- MAIN APP -->
+    <div id="mainApp" class="hidden-section flex h-screen overflow-hidden">
+        
+        <!-- Sidebar (Desktop) -->
+        <aside class="hidden md:flex flex-col w-64 bg-white dark:bg-darkCard border-r border-slate-200 dark:border-slate-800 z-20 transition-all">
+            <div class="p-6 flex items-center gap-3 border-b border-slate-100 dark:border-slate-800">
+                <div class="bg-gradient-to-br from-primary to-secondary p-2 rounded-lg text-white">
+                    <i data-lucide="shapes" class="w-6 h-6"></i>
+                </div>
+                <h2 class="font-bold text-xl tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-primary to-secondary">Ruang Matematika</h2>
+            </div>
+            <nav class="flex-1 overflow-y-auto py-4 px-3 space-y-1" id="desktopNav">
+                <!-- Nav items generated via JS -->
+            </nav>
+            <div class="p-4 border-t border-slate-100 dark:border-slate-800">
+                <button onclick="logout()" class="flex items-center gap-3 w-full px-4 py-2.5 text-red-500 hover:bg-red-50 dark:hover:bg-red-500/10 rounded-xl transition-colors font-medium text-sm">
+                    <i data-lucide="log-out" class="w-5 h-5"></i> Keluar
+                </button>
+            </div>
+        </aside>
+
+        <!-- Main Content Area -->
+        <div class="flex-1 flex flex-col h-full overflow-hidden relative">
+            
+            <!-- Topbar -->
+            <header class="h-16 glass z-30 px-4 md:px-8 flex items-center justify-between border-b border-slate-200/50 dark:border-slate-700/50 sticky top-0">
+                <div class="flex items-center gap-3">
+                    <h2 id="pageTitle" class="font-semibold text-lg md:text-xl capitalize">Beranda</h2>
+                </div>
+                <div class="flex items-center gap-2 md:gap-4">
+                    <!-- Progress Bar Header (Small) -->
+                    <div class="hidden md:flex items-center gap-2 mr-4" title="Progress Belajar">
+                        <i data-lucide="trending-up" class="w-4 h-4 text-primary"></i>
+                        <div class="w-24 h-2 bg-slate-200 dark:bg-slate-700 rounded-full overflow-hidden">
+                            <div id="headerProgress" class="h-full bg-gradient-to-r from-primary to-secondary w-0 transition-all duration-1000"></div>
+                        </div>
+                    </div>
+                    <button onclick="toggleDarkMode()" class="p-2 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors text-slate-600 dark:text-slate-300">
+                        <i data-lucide="moon" id="themeIcon" class="w-5 h-5"></i>
+                    </button>
+                    <button onclick="toggleFullscreen()" class="p-2 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors text-slate-600 dark:text-slate-300 hidden md:block">
+                        <i data-lucide="maximize" id="fullscreenIcon" class="w-5 h-5"></i>
+                    </button>
+                </div>
+            </header>
+
+            <!-- Scrollable Content -->
+            <main class="flex-1 overflow-y-auto p-4 md:p-8 pb-24 md:pb-8 scroll-smooth" id="contentArea">
+                
+                <!-- SECTION: BERANDA -->
+                <section id="sec-beranda" class="fade-in max-w-5xl mx-auto space-y-6">
+                    <!-- Welcome Card -->
+                    <div class="bg-gradient-to-r from-primary to-secondary rounded-3xl p-6 md:p-10 text-white shadow-lg relative overflow-hidden">
+                        <div class="absolute top-0 right-0 opacity-10 pointer-events-none transform translate-x-1/4 -translate-y-1/4">
+                            <i data-lucide="box" class="w-64 h-64"></i>
+                        </div>
+                        <div class="relative z-10">
+                            <h2 class="text-3xl md:text-4xl font-bold mb-2">Halo, <span id="displayNama">Siswa</span>! 👋</h2>
+                            <p class="text-white/80 flex items-center gap-2"><i data-lucide="school" class="w-4 h-4"></i> <span id="displaySekolah">Sekolah</span></p>
+                            
+                            <div class="mt-8 bg-white/20 backdrop-blur-md p-5 rounded-2xl border border-white/20 max-w-md">
+                                <div class="flex justify-between items-end mb-2">
+                                    <span class="font-medium text-sm">Progress Belajar</span>
+                                    <span class="font-bold text-xl" id="progressText">0%</span>
+                                </div>
+                                <div class="w-full h-3 bg-white/20 rounded-full overflow-hidden">
+                                    <div id="mainProgressBar" class="h-full bg-white rounded-full transition-all duration-1000 w-0 relative">
+                                        <div class="absolute inset-0 bg-white/50 animate-pulse"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Stats Grid -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div class="bg-white dark:bg-darkCard p-6 rounded-3xl shadow-sm border border-slate-100 dark:border-slate-800 hover-card">
+                            <div class="flex items-center gap-4 mb-4">
+                                <div class="w-12 h-12 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-500 flex items-center justify-center">
+                                    <i data-lucide="book-open" class="w-6 h-6"></i>
+                                </div>
+                                <div>
+                                    <h3 class="font-bold text-slate-800 dark:text-white">Materi Dipelajari</h3>
+                                    <p class="text-sm text-slate-500 dark:text-slate-400" id="materiCount">0 / 4 Bagian</p>
+                                </div>
+                            </div>
+                            <ul class="text-sm text-slate-600 dark:text-slate-300 space-y-2 mt-4" id="materiList">
+                                <!-- List populated by JS -->
+                            </ul>
+                        </div>
+                        
+                        <div class="bg-white dark:bg-darkCard p-6 rounded-3xl shadow-sm border border-slate-100 dark:border-slate-800 hover-card">
+                            <div class="flex items-center gap-4 mb-4">
+                                <div class="w-12 h-12 rounded-full bg-emerald-100 dark:bg-emerald-900/40 text-emerald-500 flex items-center justify-center">
+                                    <i data-lucide="award" class="w-6 h-6"></i>
+                                </div>
+                                <div>
+                                    <h3 class="font-bold text-slate-800 dark:text-white">Nilai Latihan Terakhir</h3>
+                                    <p class="text-sm text-slate-500 dark:text-slate-400">Skor kuis pilihan ganda</p>
+                                </div>
+                            </div>
+                            <div class="mt-4 flex items-center justify-center">
+                                <div class="relative w-32 h-32 flex items-center justify-center rounded-full border-8 border-slate-100 dark:border-slate-800">
+                                    <svg class="absolute inset-0 w-full h-full transform -rotate-90" viewBox="0 0 100 100">
+                                        <circle cx="50" cy="50" r="46" fill="transparent" stroke="currentColor" stroke-width="8" class="text-emerald-500 stroke-current transition-all duration-1000" id="scoreCircle" stroke-dasharray="289" stroke-dashoffset="289"></circle>
+                                    </svg>
+                                    <span class="text-3xl font-bold text-slate-800 dark:text-white" id="scoreText">-</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- SECTION: PENGERTIAN -->
+                <section id="sec-pengertian" class="hidden-section fade-in max-w-5xl mx-auto space-y-8">
+                    <div class="bg-white dark:bg-darkCard p-8 rounded-3xl shadow-sm border border-slate-100 dark:border-slate-800">
+                        <h3 class="text-2xl font-bold text-primary mb-4">Apa itu Bangun Ruang Sisi Datar?</h3>
+                        <p class="text-slate-700 dark:text-slate-300 leading-relaxed text-lg mb-6">
+                            Bangun ruang sisi datar adalah bangun tiga dimensi yang memiliki volume (isi) dan dibatasi oleh sisi-sisi yang permukaannya <b>datar (tidak melengkung)</b>. Bangun-bangun ini sering kita jumpai di kehidupan sehari-hari, seperti kardus, dadu, tenda, hingga atap rumah.
+                        </p>
+                        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mt-8">
+                            <!-- SVG Illustrations -->
+                            <div class="flex flex-col items-center justify-center p-4 bg-slate-50 dark:bg-slate-800/50 rounded-2xl hover-card">
+                                <svg class="shape-svg w-24 h-24 mb-3 text-blue-500" viewBox="0 0 100 100" fill="currentColor">
+                                    <polygon points="30,30 70,30 70,70 30,70" opacity="0.8"/>
+                                    <polygon points="30,30 45,15 85,15 70,30" opacity="0.6"/>
+                                    <polygon points="70,30 85,15 85,55 70,70" opacity="0.4"/>
+                                </svg>
+                                <span class="font-semibold dark:text-white">Kubus</span>
+                            </div>
+                            <div class="flex flex-col items-center justify-center p-4 bg-slate-50 dark:bg-slate-800/50 rounded-2xl hover-card">
+                                <svg class="shape-svg w-24 h-24 mb-3 text-indigo-500" viewBox="0 0 100 100" fill="currentColor">
+                                    <polygon points="20,40 80,40 80,70 20,70" opacity="0.8"/>
+                                    <polygon points="20,40 35,25 95,25 80,40" opacity="0.6"/>
+                                    <polygon points="80,40 95,25 95,55 80,70" opacity="0.4"/>
+                                </svg>
+                                <span class="font-semibold dark:text-white">Balok</span>
+                            </div>
+                            <div class="flex flex-col items-center justify-center p-4 bg-slate-50 dark:bg-slate-800/50 rounded-2xl hover-card">
+                                <svg class="shape-svg w-24 h-24 mb-3 text-teal-500" viewBox="0 0 100 100" fill="currentColor">
+                                    <polygon points="50,20 20,80 80,80" opacity="0.8"/>
+                                    <polygon points="50,20 65,10 95,70 80,80" opacity="0.5"/>
+                                </svg>
+                                <span class="font-semibold dark:text-white">Prisma</span>
+                            </div>
+                            <div class="flex flex-col items-center justify-center p-4 bg-slate-50 dark:bg-slate-800/50 rounded-2xl hover-card">
+                                <svg class="shape-svg w-24 h-24 mb-3 text-purple-500" viewBox="0 0 100 100" fill="currentColor">
+                                    <polygon points="20,70 80,70 50,20" opacity="0.8"/>
+                                    <polygon points="80,70 95,55 50,20" opacity="0.5"/>
+                                </svg>
+                                <span class="font-semibold dark:text-white">Limas</span>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- SECTION: CIRI-CIRI -->
+                <section id="sec-ciriciri" class="hidden-section fade-in max-w-5xl mx-auto space-y-8">
+                    <p class="text-center text-slate-600 dark:text-slate-400 mb-8 max-w-2xl mx-auto">Mari pelajari karakteristik setiap bangun ruang. <b>Klik pada contoh benda</b> di bawah ini untuk melihat gambarnya di kehidupan nyata.</p>
+                    
+                    <!-- Kubus -->
+                    <div class="bg-white dark:bg-darkCard rounded-3xl overflow-hidden shadow-sm border border-slate-100 dark:border-slate-800 hover-card flex flex-col md:flex-row">
+                        <div class="md:w-1/3 bg-blue-500 p-8 flex flex-col items-center justify-center text-white relative overflow-hidden">
+                            <div class="absolute inset-0 opacity-20" style="background-image: radial-gradient(circle at 2px 2px, white 1px, transparent 0); background-size: 20px 20px;"></div>
+                            <i data-lucide="box" class="w-24 h-24 mb-4 relative z-10"></i>
+                            <h3 class="text-3xl font-bold relative z-10 mb-6">Kubus</h3>
+                            <div class="flex gap-3 w-full justify-center relative z-10">
+                                <div class="bg-white/20 px-3 py-2 rounded-lg text-center backdrop-blur-sm"><span class="block text-xl font-bold">6</span><span class="text-xs">Sisi</span></div>
+                                <div class="bg-white/20 px-3 py-2 rounded-lg text-center backdrop-blur-sm"><span class="block text-xl font-bold">12</span><span class="text-xs">Rusuk</span></div>
+                                <div class="bg-white/20 px-3 py-2 rounded-lg text-center backdrop-blur-sm"><span class="block text-xl font-bold">8</span><span class="text-xs">Sudut</span></div>
+                            </div>
+                        </div>
+                        <div class="md:w-2/3 p-6 md:p-8 flex flex-col justify-center space-y-5">
+                            <div>
+                                <h4 class="flex items-center gap-2 font-bold text-slate-800 dark:text-white text-lg mb-2">
+                                    <i data-lucide="file-text" class="w-5 h-5 text-blue-500"></i> Deskripsi Detail
+                                </h4>
+                                <p class="text-slate-600 dark:text-slate-300 text-sm leading-relaxed">
+                                    Kubus adalah bangun ruang istimewa karena <b>keenam sisinya kongruen (sama bentuk dan ukuran)</b> serta berbentuk persegi (bujur sangkar). Semua rusuknya memiliki panjang yang persis sama, dan semua sudut antar sisinya membentuk sudut siku-siku (90 derajat).
+                                </p>
+                            </div>
+                            <div>
+                                <h4 class="flex items-center gap-2 font-bold text-slate-800 dark:text-white text-lg mb-3">
+                                    <i data-lucide="globe" class="w-5 h-5 text-blue-500"></i> Klik Contoh di Kehidupan Nyata
+                                </h4>
+                                <div class="flex flex-wrap gap-2">
+                                    <button onclick="openImageModal('Dadu', 'https://images.unsplash.com/photo-1516600164266-f3b8166ae679?auto=format&fit=crop&w=800&q=80')" class="px-3 py-1.5 bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 text-xs font-medium rounded-full hover:bg-blue-500 hover:text-white dark:hover:bg-blue-600 transition-all shadow-sm cursor-pointer flex items-center gap-1.5 active:scale-95"><i data-lucide="camera" class="w-3.5 h-3.5"></i> Dadu</button>
+                                    <button onclick="openImageModal('Rubik\'s Cube', 'https://images.unsplash.com/photo-1591991564021-0662a8573199?auto=format&fit=crop&w=800&q=80')" class="px-3 py-1.5 bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 text-xs font-medium rounded-full hover:bg-blue-500 hover:text-white dark:hover:bg-blue-600 transition-all shadow-sm cursor-pointer flex items-center gap-1.5 active:scale-95"><i data-lucide="camera" class="w-3.5 h-3.5"></i> Rubik's Cube</button>
+                                    <button onclick="openImageModal('Es Batu', 'https://images.unsplash.com/photo-1542223616-9ea312011b93?auto=format&fit=crop&w=800&q=80')" class="px-3 py-1.5 bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 text-xs font-medium rounded-full hover:bg-blue-500 hover:text-white dark:hover:bg-blue-600 transition-all shadow-sm cursor-pointer flex items-center gap-1.5 active:scale-95"><i data-lucide="camera" class="w-3.5 h-3.5"></i> Es Batu</button>
+                                    <button onclick="openImageModal('Brankas Kotak', 'https://images.unsplash.com/photo-1607344645866-2eb96fb7f2e1?auto=format&fit=crop&w=800&q=80')" class="px-3 py-1.5 bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 text-xs font-medium rounded-full hover:bg-blue-500 hover:text-white dark:hover:bg-blue-600 transition-all shadow-sm cursor-pointer flex items-center gap-1.5 active:scale-95"><i data-lucide="camera" class="w-3.5 h-3.5"></i> Brankas Kotak</button>
+                                    <button onclick="openImageModal('Kardus Persegi', 'https://images.unsplash.com/photo-1587293852726-692b1565a940?auto=format&fit=crop&w=800&q=80')" class="px-3 py-1.5 bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 text-xs font-medium rounded-full hover:bg-blue-500 hover:text-white dark:hover:bg-blue-600 transition-all shadow-sm cursor-pointer flex items-center gap-1.5 active:scale-95"><i data-lucide="camera" class="w-3.5 h-3.5"></i> Kardus Persegi</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Balok -->
+                    <div class="bg-white dark:bg-darkCard rounded-3xl overflow-hidden shadow-sm border border-slate-100 dark:border-slate-800 hover-card flex flex-col md:flex-row-reverse">
+                        <div class="md:w-1/3 bg-indigo-500 p-8 flex flex-col items-center justify-center text-white relative overflow-hidden">
+                            <div class="absolute inset-0 opacity-20" style="background-image: radial-gradient(circle at 2px 2px, white 1px, transparent 0); background-size: 20px 20px;"></div>
+                            <i data-lucide="package" class="w-24 h-24 mb-4 relative z-10"></i>
+                            <h3 class="text-3xl font-bold relative z-10 mb-6">Balok</h3>
+                            <div class="flex gap-3 w-full justify-center relative z-10">
+                                <div class="bg-white/20 px-3 py-2 rounded-lg text-center backdrop-blur-sm"><span class="block text-xl font-bold">6</span><span class="text-xs">Sisi</span></div>
+                                <div class="bg-white/20 px-3 py-2 rounded-lg text-center backdrop-blur-sm"><span class="block text-xl font-bold">12</span><span class="text-xs">Rusuk</span></div>
+                                <div class="bg-white/20 px-3 py-2 rounded-lg text-center backdrop-blur-sm"><span class="block text-xl font-bold">8</span><span class="text-xs">Sudut</span></div>
+                            </div>
+                        </div>
+                        <div class="md:w-2/3 p-6 md:p-8 flex flex-col justify-center space-y-5">
+                            <div>
+                                <h4 class="flex items-center gap-2 font-bold text-slate-800 dark:text-white text-lg mb-2">
+                                    <i data-lucide="file-text" class="w-5 h-5 text-indigo-500"></i> Deskripsi Detail
+                                </h4>
+                                <p class="text-slate-600 dark:text-slate-300 text-sm leading-relaxed">
+                                    Balok menyerupai kubus, namun sisinya berbentuk <b>persegi panjang</b>. Balok dibatasi oleh tiga pasang sisi sejajar yang kongruen (sisi depan-belakang, atas-bawah, kiri-kanan). Setidaknya satu pasang sisi memiliki ukuran panjang dan lebar yang berbeda dari pasangan sisi lainnya.
+                                </p>
+                            </div>
+                            <div>
+                                <h4 class="flex items-center gap-2 font-bold text-slate-800 dark:text-white text-lg mb-3">
+                                    <i data-lucide="globe" class="w-5 h-5 text-indigo-500"></i> Klik Contoh di Kehidupan Nyata
+                                </h4>
+                                <div class="flex flex-wrap gap-2">
+                                    <button onclick="openImageModal('Lemari Pakaian', 'https://images.unsplash.com/photo-1595428774223-ef52624120d2?auto=format&fit=crop&w=800&q=80')" class="px-3 py-1.5 bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 text-xs font-medium rounded-full hover:bg-indigo-500 hover:text-white dark:hover:bg-indigo-600 transition-all shadow-sm cursor-pointer flex items-center gap-1.5 active:scale-95"><i data-lucide="camera" class="w-3.5 h-3.5"></i> Lemari Pakaian</button>
+                                    <button onclick="openImageModal('Batu Bata', 'https://images.unsplash.com/photo-1585250444317-a006dbed0cc4?auto=format&fit=crop&w=800&q=80')" class="px-3 py-1.5 bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 text-xs font-medium rounded-full hover:bg-indigo-500 hover:text-white dark:hover:bg-indigo-600 transition-all shadow-sm cursor-pointer flex items-center gap-1.5 active:scale-95"><i data-lucide="camera" class="w-3.5 h-3.5"></i> Batu Bata</button>
+                                    <button onclick="openImageModal('Kotak Sepatu', 'https://images.unsplash.com/photo-1606760227091-3dd870d97f1d?auto=format&fit=crop&w=800&q=80')" class="px-3 py-1.5 bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 text-xs font-medium rounded-full hover:bg-indigo-500 hover:text-white dark:hover:bg-indigo-600 transition-all shadow-sm cursor-pointer flex items-center gap-1.5 active:scale-95"><i data-lucide="camera" class="w-3.5 h-3.5"></i> Kotak Sepatu</button>
+                                    <button onclick="openImageModal('Akuarium Ikan', 'https://images.unsplash.com/photo-1522069169874-c58ced4b5042?auto=format&fit=crop&w=800&q=80')" class="px-3 py-1.5 bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 text-xs font-medium rounded-full hover:bg-indigo-500 hover:text-white dark:hover:bg-indigo-600 transition-all shadow-sm cursor-pointer flex items-center gap-1.5 active:scale-95"><i data-lucide="camera" class="w-3.5 h-3.5"></i> Akuarium Ikan</button>
+                                    <button onclick="openImageModal('Buku Tebal', 'https://images.unsplash.com/photo-1544947950-fa07a98d237f?auto=format&fit=crop&w=800&q=80')" class="px-3 py-1.5 bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 text-xs font-medium rounded-full hover:bg-indigo-500 hover:text-white dark:hover:bg-indigo-600 transition-all shadow-sm cursor-pointer flex items-center gap-1.5 active:scale-95"><i data-lucide="camera" class="w-3.5 h-3.5"></i> Buku Tebal</button>
+                                    <button onclick="openImageModal('Bus / Truk Box', 'https://images.unsplash.com/photo-1586191552066-f52fd141afc1?auto=format&fit=crop&w=800&q=80')" class="px-3 py-1.5 bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 text-xs font-medium rounded-full hover:bg-indigo-500 hover:text-white dark:hover:bg-indigo-600 transition-all shadow-sm cursor-pointer flex items-center gap-1.5 active:scale-95"><i data-lucide="camera" class="w-3.5 h-3.5"></i> Bus / Truk Box</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Prisma -->
+                    <div class="bg-white dark:bg-darkCard rounded-3xl overflow-hidden shadow-sm border border-slate-100 dark:border-slate-800 hover-card flex flex-col md:flex-row">
+                        <div class="md:w-1/3 bg-teal-500 p-8 flex flex-col items-center justify-center text-white relative overflow-hidden">
+                            <div class="absolute inset-0 opacity-20" style="background-image: radial-gradient(circle at 2px 2px, white 1px, transparent 0); background-size: 20px 20px;"></div>
+                            <i data-lucide="tent" class="w-24 h-24 mb-4 relative z-10"></i>
+                            <h3 class="text-3xl font-bold relative z-10 mb-6">Prisma</h3>
+                            <div class="flex gap-2 w-full justify-center relative z-10">
+                                <div class="bg-white/20 px-2 py-2 rounded-lg text-center backdrop-blur-sm"><span class="block text-lg font-bold">n+2</span><span class="text-[10px]">Sisi</span></div>
+                                <div class="bg-white/20 px-2 py-2 rounded-lg text-center backdrop-blur-sm"><span class="block text-lg font-bold">3n</span><span class="text-[10px]">Rusuk</span></div>
+                                <div class="bg-white/20 px-2 py-2 rounded-lg text-center backdrop-blur-sm"><span class="block text-lg font-bold">2n</span><span class="text-[10px]">Sudut</span></div>
+                            </div>
+                            <p class="text-xs text-white/80 mt-2 text-center relative z-10">*n = jumlah segi pada alas</p>
+                        </div>
+                        <div class="md:w-2/3 p-6 md:p-8 flex flex-col justify-center space-y-5">
+                            <div>
+                                <h4 class="flex items-center gap-2 font-bold text-slate-800 dark:text-white text-lg mb-2">
+                                    <i data-lucide="file-text" class="w-5 h-5 text-teal-500"></i> Deskripsi Detail
+                                </h4>
+                                <p class="text-slate-600 dark:text-slate-300 text-sm leading-relaxed">
+                                    Prisma adalah bangun ruang yang mempunyai bidang alas dan atap yang <b>sejajar dan berukuran sama persis (kongruen)</b>. Kedua bidang tersebut dihubungkan oleh sisi-sisi tegak yang berbentuk persegi atau persegi panjang.
+                                </p>
+                            </div>
+                            <div>
+                                <h4 class="flex items-center gap-2 font-bold text-slate-800 dark:text-white text-lg mb-2">
+                                    <i data-lucide="layers" class="w-5 h-5 text-teal-500"></i> Macam-macam Prisma
+                                </h4>
+                                <ul class="text-sm text-slate-600 dark:text-slate-300 space-y-1 ml-6 list-disc marker:text-teal-500">
+                                    <li><b>Prisma Segitiga:</b> Alas dan atapnya berbentuk segitiga.</li>
+                                    <li><b>Prisma Segiempat:</b> Alas dan atap segiempat (Kubus dan Balok).</li>
+                                    <li><b>Prisma Segilima/Segienam:</b> Alas dan atapnya memiliki 5 atau 6 sudut.</li>
+                                </ul>
+                            </div>
+                            <div>
+                                <h4 class="flex items-center gap-2 font-bold text-slate-800 dark:text-white text-lg mb-3">
+                                    <i data-lucide="globe" class="w-5 h-5 text-teal-500"></i> Klik Contoh di Kehidupan Nyata
+                                </h4>
+                                <div class="flex flex-wrap gap-2">
+                                    <button onclick="openImageModal('Tenda Pramuka', 'https://images.unsplash.com/photo-1523987355523-c7b5b0dd90a7?auto=format&fit=crop&w=800&q=80')" class="px-3 py-1.5 bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 text-xs font-medium rounded-full hover:bg-teal-500 hover:text-white dark:hover:bg-teal-600 transition-all shadow-sm cursor-pointer flex items-center gap-1.5 active:scale-95"><i data-lucide="camera" class="w-3.5 h-3.5"></i> Tenda Pramuka</button>
+                                    <button onclick="openImageModal('Cokelat Batangan', 'https://images.unsplash.com/photo-1621644026330-811c76100806?auto=format&fit=crop&w=800&q=80')" class="px-3 py-1.5 bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 text-xs font-medium rounded-full hover:bg-teal-500 hover:text-white dark:hover:bg-teal-600 transition-all shadow-sm cursor-pointer flex items-center gap-1.5 active:scale-95"><i data-lucide="camera" class="w-3.5 h-3.5"></i> Cokelat Batangan</button>
+                                    <button onclick="openImageModal('Paving Block', 'https://images.unsplash.com/photo-1605806616949-1e87b487cb2a?auto=format&fit=crop&w=800&q=80')" class="px-3 py-1.5 bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 text-xs font-medium rounded-full hover:bg-teal-500 hover:text-white dark:hover:bg-teal-600 transition-all shadow-sm cursor-pointer flex items-center gap-1.5 active:scale-95"><i data-lucide="camera" class="w-3.5 h-3.5"></i> Paving Block</button>
+                                    <button onclick="openImageModal('Kemasan Jus Kotak', 'https://images.unsplash.com/photo-1622483767028-3f66f32aef97?auto=format&fit=crop&w=800&q=80')" class="px-3 py-1.5 bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 text-xs font-medium rounded-full hover:bg-teal-500 hover:text-white dark:hover:bg-teal-600 transition-all shadow-sm cursor-pointer flex items-center gap-1.5 active:scale-95"><i data-lucide="camera" class="w-3.5 h-3.5"></i> Kemasan Jus Kotak</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Limas -->
+                    <div class="bg-white dark:bg-darkCard rounded-3xl overflow-hidden shadow-sm border border-slate-100 dark:border-slate-800 hover-card flex flex-col md:flex-row-reverse">
+                        <div class="md:w-1/3 bg-purple-500 p-8 flex flex-col items-center justify-center text-white relative overflow-hidden">
+                            <div class="absolute inset-0 opacity-20" style="background-image: radial-gradient(circle at 2px 2px, white 1px, transparent 0); background-size: 20px 20px;"></div>
+                            <i data-lucide="pyramid" class="w-24 h-24 mb-4 relative z-10"></i>
+                            <h3 class="text-3xl font-bold relative z-10 mb-6">Limas</h3>
+                            <div class="flex gap-2 w-full justify-center relative z-10">
+                                <div class="bg-white/20 px-2 py-2 rounded-lg text-center backdrop-blur-sm"><span class="block text-lg font-bold">n+1</span><span class="text-[10px]">Sisi</span></div>
+                                <div class="bg-white/20 px-2 py-2 rounded-lg text-center backdrop-blur-sm"><span class="block text-lg font-bold">2n</span><span class="text-[10px]">Rusuk</span></div>
+                                <div class="bg-white/20 px-2 py-2 rounded-lg text-center backdrop-blur-sm"><span class="block text-lg font-bold">n+1</span><span class="text-[10px]">Sudut</span></div>
+                            </div>
+                            <p class="text-xs text-white/80 mt-2 text-center relative z-10">*n = jumlah segi pada alas</p>
+                        </div>
+                        <div class="md:w-2/3 p-6 md:p-8 flex flex-col justify-center space-y-5">
+                            <div>
+                                <h4 class="flex items-center gap-2 font-bold text-slate-800 dark:text-white text-lg mb-2">
+                                    <i data-lucide="file-text" class="w-5 h-5 text-purple-500"></i> Deskripsi Detail
+                                </h4>
+                                <p class="text-slate-600 dark:text-slate-300 text-sm leading-relaxed">
+                                    Limas adalah bangun ruang yang memiliki bidang alas berbentuk segi banyak (segitiga, segiempat, dst), dan bidang sisi tegaknya <b>selalu berbentuk segitiga yang saling berpotongan (mengerucut) pada satu titik puncak</b> di bagian atas.
+                                </p>
+                            </div>
+                            <div>
+                                <h4 class="flex items-center gap-2 font-bold text-slate-800 dark:text-white text-lg mb-2">
+                                    <i data-lucide="layers" class="w-5 h-5 text-purple-500"></i> Macam-macam Limas
+                                </h4>
+                                <ul class="text-sm text-slate-600 dark:text-slate-300 space-y-1 ml-6 list-disc marker:text-purple-500">
+                                    <li><b>Limas Segitiga:</b> Alas berbentuk segitiga.</li>
+                                    <li><b>Limas Segiempat:</b> Alas persegi/persegi panjang.</li>
+                                    <li><b>Limas Segilima/Segienam:</b> Memiliki alas dengan 5/6 sudut.</li>
+                                </ul>
+                            </div>
+                            <div>
+                                <h4 class="flex items-center gap-2 font-bold text-slate-800 dark:text-white text-lg mb-3">
+                                    <i data-lucide="globe" class="w-5 h-5 text-purple-500"></i> Klik Contoh di Kehidupan Nyata
+                                </h4>
+                                <div class="flex flex-wrap gap-2">
+                                    <button onclick="openImageModal('Piramida Mesir', 'https://images.unsplash.com/photo-1539650116574-8efeb43e2b50?auto=format&fit=crop&w=800&q=80')" class="px-3 py-1.5 bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 text-xs font-medium rounded-full hover:bg-purple-500 hover:text-white dark:hover:bg-purple-600 transition-all shadow-sm cursor-pointer flex items-center gap-1.5 active:scale-95"><i data-lucide="camera" class="w-3.5 h-3.5"></i> Piramida Mesir</button>
+                                    <button onclick="openImageModal('Atap Rumah', 'https://images.unsplash.com/photo-1518780664697-55e3ad937233?auto=format&fit=crop&w=800&q=80')" class="px-3 py-1.5 bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 text-xs font-medium rounded-full hover:bg-purple-500 hover:text-white dark:hover:bg-purple-600 transition-all shadow-sm cursor-pointer flex items-center gap-1.5 active:scale-95"><i data-lucide="camera" class="w-3.5 h-3.5"></i> Atap Rumah</button>
+                                    <button onclick="openImageModal('Teh Celup Piramida', 'https://images.unsplash.com/photo-1576092762791-dd9e2220afa1?auto=format&fit=crop&w=800&q=80')" class="px-3 py-1.5 bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 text-xs font-medium rounded-full hover:bg-purple-500 hover:text-white dark:hover:bg-purple-600 transition-all shadow-sm cursor-pointer flex items-center gap-1.5 active:scale-95"><i data-lucide="camera" class="w-3.5 h-3.5"></i> Teh Celup Piramida</button>
+                                    <button onclick="openImageModal('Ujung Menara', 'https://images.unsplash.com/photo-1548810454-159424d10077?auto=format&fit=crop&w=800&q=80')" class="px-3 py-1.5 bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 text-xs font-medium rounded-full hover:bg-purple-500 hover:text-white dark:hover:bg-purple-600 transition-all shadow-sm cursor-pointer flex items-center gap-1.5 active:scale-95"><i data-lucide="camera" class="w-3.5 h-3.5"></i> Ujung Menara</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </section>
+
+                <!-- SECTION: DETAIL MATERI (RUMUS) -->
+                <section id="sec-detail" class="hidden-section fade-in max-w-4xl mx-auto space-y-4">
+                    <p class="text-center text-slate-600 dark:text-slate-400 mb-6">Klik pada kartu di bawah ini untuk melihat rumus luas permukaan dan volume masing-masing bangun.</p>
+                    
+                    <!-- Accordion Items generated by JS to keep HTML clean -->
+                    <div id="accordionContainer" class="space-y-4"></div>
+                </section>
+
+                <!-- SECTION: LATIHAN -->
+                <section id="sec-latihan" class="hidden-section fade-in max-w-3xl mx-auto">
+                    
+                    <div id="quizIntro" class="bg-white dark:bg-darkCard p-8 rounded-3xl text-center shadow-sm border border-slate-100 dark:border-slate-800">
+                        <div class="w-20 h-20 mx-auto bg-primary/10 text-primary rounded-full flex items-center justify-center mb-4">
+                            <i data-lucide="gamepad-2" class="w-10 h-10"></i>
+                        </div>
+                        <h3 class="text-2xl font-bold dark:text-white mb-2">Latihan Pemahaman</h3>
+                        <p class="text-slate-600 dark:text-slate-400 mb-6">Uji pemahamanmu tentang bangun ruang sisi datar dengan 5 pertanyaan pilihan ganda ini.</p>
+                        <button onclick="startQuiz()" class="py-3 px-8 bg-primary hover:bg-indigo-600 text-white rounded-xl font-bold transition-all hover:scale-105 active:scale-95 shadow-lg shadow-primary/30">
+                            Mulai Latihan
+                        </button>
+                    </div>
+
+                    <div id="quizContainer" class="hidden bg-white dark:bg-darkCard p-6 md:p-8 rounded-3xl shadow-sm border border-slate-100 dark:border-slate-800 relative">
+                        <div class="flex justify-between items-center mb-6">
+                            <span class="text-sm font-semibold text-slate-500 dark:text-slate-400">Pertanyaan <span id="qCurrent">1</span>/5</span>
+                            <div class="w-32 h-2 bg-slate-100 dark:bg-slate-700 rounded-full overflow-hidden">
+                                <div id="qProgress" class="h-full bg-primary transition-all duration-300 w-1/5"></div>
+                            </div>
+                        </div>
+                        <h4 id="qText" class="text-xl font-bold text-slate-800 dark:text-white mb-6 leading-relaxed">Pertanyaan...</h4>
+                        <div id="qOptions" class="space-y-3">
+                            <!-- Options generated by JS -->
+                        </div>
+                        <div id="qFeedback" class="hidden mt-6 p-4 rounded-xl text-sm font-medium slide-up flex gap-3">
+                            <div id="qIcon" class="mt-0.5"></div>
+                            <div>
+                                <h5 id="qResultText" class="font-bold text-base mb-1"></h5>
+                                <p id="qExplanation" class="opacity-90"></p>
+                            </div>
+                        </div>
+                        <div class="mt-8 flex justify-end">
+                            <button id="btnNextQ" onclick="nextQuestion()" class="hidden py-2 px-6 bg-slate-800 dark:bg-slate-200 text-white dark:text-slate-900 rounded-xl font-bold hover:bg-slate-700 transition-colors">
+                                Selanjutnya <i data-lucide="arrow-right" class="inline w-4 h-4 ml-1"></i>
+                            </button>
+                            <button id="btnFinishQ" onclick="finishQuiz()" class="hidden py-2 px-6 bg-emerald-500 hover:bg-emerald-600 text-white rounded-xl font-bold transition-colors">
+                                Lihat Hasil <i data-lucide="check-circle" class="inline w-4 h-4 ml-1"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div id="quizResult" class="hidden bg-white dark:bg-darkCard p-8 rounded-3xl text-center shadow-sm border border-slate-100 dark:border-slate-800 slide-up">
+                        <div class="w-32 h-32 mx-auto mb-4 relative flex items-center justify-center">
+                            <svg class="absolute inset-0 w-full h-full transform -rotate-90" viewBox="0 0 100 100">
+                                <circle cx="50" cy="50" r="46" fill="transparent" stroke="#e2e8f0" stroke-width="8"></circle>
+                                <circle cx="50" cy="50" r="46" fill="transparent" stroke="currentColor" stroke-width="8" class="text-primary transition-all duration-1000" id="finalScoreCircle" stroke-dasharray="289" stroke-dashoffset="289"></circle>
+                            </svg>
+                            <span class="text-4xl font-bold dark:text-white" id="finalScoreText">100</span>
+                        </div>
+                        <h3 class="text-2xl font-bold dark:text-white mb-2" id="resultMessage">Luar Biasa!</h3>
+                        <p class="text-slate-600 dark:text-slate-400 mb-8">Nilaimu sudah disimpan. Kamu bisa mengulangi latihan kapan saja.</p>
+                        <button onclick="navigate('beranda')" class="py-3 px-8 bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 dark:text-white text-slate-800 rounded-xl font-bold transition-all">
+                            Kembali ke Beranda
+                        </button>
+                    </div>
+
+                </section>
+
+                <!-- SECTION: REFLEKSI -->
+                <section id="sec-refleksi" class="hidden-section fade-in max-w-3xl mx-auto">
+                    <div class="bg-white dark:bg-darkCard p-8 rounded-3xl shadow-sm border border-slate-100 dark:border-slate-800 relative overflow-hidden">
+                        <div class="absolute top-0 right-0 w-32 h-32 bg-secondary/10 rounded-full blur-3xl -mr-10 -mt-10"></div>
+                        <div class="relative z-10">
+                            <div class="flex items-center gap-3 mb-6">
+                                <i data-lucide="pen-tool" class="w-8 h-8 text-secondary"></i>
+                                <h3 class="text-2xl font-bold dark:text-white">Refleksi Belajar</h3>
+                            </div>
+                            <p class="text-slate-600 dark:text-slate-400 mb-8">Yuk, tuliskan pengalaman belajarmu hari ini. Refleksi ini akan disimpan secara lokal di perangkatmu.</p>
+                            
+                            <form id="refleksiForm" class="space-y-6">
+                                <div>
+                                    <label class="block font-medium text-slate-700 dark:text-slate-300 mb-2">1. Apa yang paling menarik yang kamu pelajari hari ini?</label>
+                                    <textarea id="ref1" rows="3" required class="w-full px-4 py-3 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 focus:ring-2 focus:ring-secondary outline-none transition-all dark:text-white resize-none" placeholder="Tuliskan jawabanmu di sini..."></textarea>
+                                </div>
+                                <div>
+                                    <label class="block font-medium text-slate-700 dark:text-slate-300 mb-2">2. Bagian materi mana yang masih terasa sulit atau membingungkan?</label>
+                                    <textarea id="ref2" rows="3" required class="w-full px-4 py-3 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 focus:ring-2 focus:ring-secondary outline-none transition-all dark:text-white resize-none" placeholder="Tuliskan jawabanmu di sini..."></textarea>
+                                </div>
+                                <button type="submit" class="w-full md:w-auto py-3 px-8 bg-secondary hover:bg-teal-500 text-white rounded-xl font-bold transition-all shadow-lg shadow-secondary/30 flex items-center justify-center gap-2">
+                                    Simpan Refleksi <i data-lucide="save" class="w-4 h-4"></i>
+                                </button>
+                                <p id="refleksiSavedMsg" class="text-emerald-500 font-medium text-sm hidden slide-up mt-2">✨ Refleksi berhasil disimpan!</p>
+                            </form>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- FOOTER -->
+                <footer class="mt-16 mb-4 text-center text-sm text-slate-500 dark:text-slate-400 fade-in">
+                    <p>&copy; 2026 Noviyalpg Creative. Semua Hak Cipta Dilindungi.</p>
+                </footer>
+
+            </main>
+        </div>
+
+        <!-- Mobile Bottom Navigation -->
+        <nav class="md:hidden fixed bottom-0 w-full glass border-t border-slate-200/50 dark:border-slate-700/50 z-40 pb-safe">
+            <ul class="flex justify-around p-2" id="mobileNav">
+                <!-- Nav items generated via JS -->
+            </ul>
+        </nav>
+    </div>
+
+    <!-- JavaScript Application Logic -->
+    <script>
+        // --- DATA & STATE ---
+        const M_KEY = 'mathlearn_data';
+        let currentUser = null;
+        let activePage = 'beranda';
+
+        const NAV_ITEMS = [
+            { id: 'beranda', label: 'Beranda', icon: 'home' },
+            { id: 'pengertian', label: 'Pengertian', icon: 'book-open' },
+            { id: 'ciriciri', label: 'Ciri-ciri', icon: 'grid' },
+            { id: 'detail', label: 'Rumus', icon: 'function-square' },
+            { id: 'latihan', label: 'Latihan', icon: 'check-square' },
+            { id: 'refleksi', label: 'Refleksi', icon: 'pen-tool' }
+        ];
+
+        const RUMUS_DATA = [
+            {
+                id: 'r-kubus', nama: 'Kubus', icon: 'box', color: 'blue',
+                luas: 'L = 6 × s²',
+                volume: 'V = s × s × s = s³',
+                ket: 's = panjang rusuk kubus'
+            },
+            {
+                id: 'r-balok', nama: 'Balok', icon: 'package', color: 'indigo',
+                luas: 'L = 2 × (p.l + p.t + l.t)',
+                volume: 'V = p × l × t',
+                ket: 'p = panjang, l = lebar, t = tinggi'
+            },
+            {
+                id: 'r-prisma', nama: 'Prisma', icon: 'tent', color: 'teal',
+                luas: 'L = (2 × Luas Alas) + (Keliling Alas × tinggi prisma)',
+                volume: 'V = Luas Alas × tinggi prisma',
+                ket: 'Bentuk alas disesuaikan dengan jenis prisma'
+            },
+            {
+                id: 'r-limas', nama: 'Limas', icon: 'pyramid', color: 'purple',
+                luas: 'L = Luas Alas + Jumlah Luas Sisi Tegak',
+                volume: 'V = ⅓ × Luas Alas × tinggi limas',
+                ket: 'Sisi tegak limas selalu berbentuk segitiga'
+            }
+        ];
+
+        const QUIZ_DATA = [
+            {
+                q: "Bangun ruang sisi datar yang memiliki 6 buah sisi berbentuk persegi kongruen adalah...",
+                opts: ["Balok", "Prisma Segitiga", "Kubus", "Limas Segiempat"],
+                ans: 2,
+                exp: "Kubus dibentuk oleh 6 buah bidang persegi yang kongruen (sama dan sebangun)."
+            },
+            {
+                q: "Rumus untuk mencari Volume Balok adalah...",
+                opts: ["V = s × s × s", "V = p × l × t", "V = Luas alas × tinggi", "V = ⅓ × Luas alas × t"],
+                ans: 1,
+                exp: "Volume balok didapat dengan mengalikan panjang (p), lebar (l), dan tinggi (t)."
+            },
+            {
+                q: "Sebuah limas segiempat memiliki titik sudut sebanyak...",
+                opts: ["4", "5", "6", "8"],
+                ans: 1,
+                exp: "Limas segiempat memiliki 4 titik sudut di alas dan 1 titik puncak. Total 5 titik sudut (n+1)."
+            },
+            {
+                q: "Berapa banyak rusuk yang dimiliki oleh prisma segitiga?",
+                opts: ["6", "8", "9", "12"],
+                ans: 2,
+                exp: "Prisma segitiga memiliki 3 rusuk alas, 3 rusuk atas, dan 3 rusuk tegak. Total = 3n = 3(3) = 9 rusuk."
+            },
+            {
+                q: "Jika sebuah kubus memiliki panjang rusuk 5 cm, berapakah volume kubus tersebut?",
+                opts: ["25 cm³", "100 cm³", "125 cm³", "150 cm³"],
+                ans: 2,
+                exp: "V = s³ = 5 × 5 × 5 = 125 cm³."
+            }
+        ];
+
+        let quizState = { current: 0, score: 0, active: false };
+
+        // --- AUDIO ENGINE ---
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        function playSound(type) {
+            if(audioCtx.state === 'suspended') audioCtx.resume();
+            const osc = audioCtx.createOscillator();
+            const gainNode = audioCtx.createGain();
+            osc.connect(gainNode);
+            gainNode.connect(audioCtx.destination);
+
+            if (type === 'click') {
+                osc.type = 'sine';
+                osc.frequency.setValueAtTime(600, audioCtx.currentTime);
+                osc.frequency.exponentialRampToValueAtTime(300, audioCtx.currentTime + 0.1);
+                gainNode.gain.setValueAtTime(0.3, audioCtx.currentTime);
+                gainNode.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.1);
+                osc.start(); osc.stop(audioCtx.currentTime + 0.1);
+            } else if (type === 'correct') {
+                osc.type = 'triangle';
+                osc.frequency.setValueAtTime(400, audioCtx.currentTime);
+                osc.frequency.setValueAtTime(600, audioCtx.currentTime + 0.1);
+                gainNode.gain.setValueAtTime(0.3, audioCtx.currentTime);
+                gainNode.gain.linearRampToValueAtTime(0, audioCtx.currentTime + 0.3);
+                osc.start(); osc.stop(audioCtx.currentTime + 0.3);
+            } else if (type === 'wrong') {
+                osc.type = 'sawtooth';
+                osc.frequency.setValueAtTime(300, audioCtx.currentTime);
+                osc.frequency.linearRampToValueAtTime(200, audioCtx.currentTime + 0.2);
+                gainNode.gain.setValueAtTime(0.3, audioCtx.currentTime);
+                gainNode.gain.linearRampToValueAtTime(0, audioCtx.currentTime + 0.2);
+                osc.start(); osc.stop(audioCtx.currentTime + 0.2);
+            } else if (type === 'tada') {
+                osc.type = 'square';
+                osc.frequency.setValueAtTime(400, audioCtx.currentTime);
+                osc.frequency.setValueAtTime(600, audioCtx.currentTime + 0.1);
+                osc.frequency.setValueAtTime(800, audioCtx.currentTime + 0.2);
+                gainNode.gain.setValueAtTime(0.2, audioCtx.currentTime);
+                gainNode.gain.linearRampToValueAtTime(0, audioCtx.currentTime + 0.5);
+                osc.start(); osc.stop(audioCtx.currentTime + 0.5);
+            }
+        }
+
+
+        // --- INITIALIZATION ---
+        document.addEventListener('DOMContentLoaded', () => {
+            loadUser();
+            buildNavigation();
+            buildRumusAccordion();
+            lucide.createIcons();
+            
+            // Event Listeners
+            document.getElementById('loginForm').addEventListener('submit', handleLogin);
+            document.getElementById('refleksiForm').addEventListener('submit', handleRefleksi);
+
+            // Set initial theme based on system preference or saved setting
+            if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+                document.documentElement.classList.add('dark');
+            } else {
+                document.documentElement.classList.remove('dark');
+            }
+        });
+
+        // --- AUTH & STATE LOGIC ---
+        function loadUser() {
+            const data = localStorage.getItem(M_KEY);
+            if (data) {
+                currentUser = JSON.parse(data);
+                showApp();
+            } else {
+                showLogin();
+            }
+        }
+
+        function handleLogin(e) {
+            e.preventDefault();
+            const nama = document.getElementById('inputNama').value.trim();
+            const sekolah = document.getElementById('inputSekolah').value.trim();
+            
+            if (nama && sekolah) {
+                currentUser = {
+                    nama, sekolah,
+                    progress: { beranda: true },
+                    lastScore: null,
+                    refleksi: { ref1: '', ref2: '' }
+                };
+                saveData();
+                playSound('click');
+                showApp();
+            }
+        }
+
+        function logout() {
+            localStorage.removeItem(M_KEY);
+            currentUser = null;
+            location.reload();
+        }
+
+        function saveData() {
+            localStorage.setItem(M_KEY, JSON.stringify(currentUser));
+        }
+
+        function showLogin() {
+            document.getElementById('loginScreen').classList.remove('hidden');
+            document.getElementById('mainApp').classList.add('hidden-section');
+        }
+
+        function showApp() {
+            document.getElementById('loginScreen').classList.add('hidden');
+            document.getElementById('mainApp').classList.remove('hidden-section');
+            updateUI();
+            navigate('beranda');
+        }
+
+        // --- NAVIGATION & UI LOGIC ---
+        function buildNavigation() {
+            const desktopContainer = document.getElementById('desktopNav');
+            const mobileContainer = document.getElementById('mobileNav');
+            
+            let desktopHTML = '';
+            let mobileHTML = '';
+
+            NAV_ITEMS.forEach(item => {
+                desktopHTML += `
+                    <button onclick="navigate('${item.id}')" id="nav-d-${item.id}" class="w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-all text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 font-medium group">
+                        <i data-lucide="${item.icon}" class="w-5 h-5 group-hover:text-primary transition-colors"></i>
+                        <span>${item.label}</span>
+                    </button>
+                `;
+                
+                mobileHTML += `
+                    <button onclick="navigate('${item.id}')" id="nav-m-${item.id}" class="flex flex-col items-center justify-center w-16 h-14 rounded-xl text-slate-500 dark:text-slate-400 transition-all">
+                        <i data-lucide="${item.icon}" class="w-5 h-5 mb-1"></i>
+                        <span class="text-[10px] font-medium">${item.label}</span>
+                    </button>
+                `;
+            });
+
+            desktopContainer.innerHTML = desktopHTML;
+            mobileContainer.innerHTML = mobileHTML;
+        }
+
+        function navigate(pageId) {
+            playSound('click');
+            activePage = pageId;
+            
+            // Mark as visited for progress
+            if(currentUser && !currentUser.progress[pageId]) {
+                currentUser.progress[pageId] = true;
+                saveData();
+            }
+
+            // Hide all sections
+            NAV_ITEMS.forEach(item => {
+                document.getElementById(`sec-${item.id}`).classList.add('hidden-section');
+                
+                // Reset Nav Styles
+                const dNav = document.getElementById(`nav-d-${item.id}`);
+                const mNav = document.getElementById(`nav-m-${item.id}`);
+                
+                dNav.className = "w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-all text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 font-medium group";
+                mNav.className = "flex flex-col items-center justify-center w-16 h-14 rounded-xl text-slate-500 dark:text-slate-400 transition-all";
+                
+                if (item.id === pageId) {
+                    // Active Nav Styles
+                    dNav.className = "w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-all bg-indigo-50 dark:bg-indigo-500/10 text-primary dark:text-indigo-400 font-semibold";
+                    mNav.className = "flex flex-col items-center justify-center w-16 h-14 rounded-xl text-primary dark:text-indigo-400 transition-all scale-110";
+                    
+                    // Update Title
+                    document.getElementById('pageTitle').innerText = item.label;
+                }
+            });
+
+            // Show active section
+            const activeSection = document.getElementById(`sec-${pageId}`);
+            activeSection.classList.remove('hidden-section');
+            
+            // Re-trigger animation
+            activeSection.classList.remove('fade-in');
+            void activeSection.offsetWidth; // trigger reflow
+            activeSection.classList.add('fade-in');
+
+            // Scroll to top
+            document.getElementById('contentArea').scrollTop = 0;
+
+            // Page specific logic
+            if(pageId === 'beranda') updateHomeStats();
+            if(pageId === 'refleksi') loadRefleksiForm();
+            
+            updateProgressBar();
+            lucide.createIcons();
+        }
+
+        function updateUI() {
+            if(!currentUser) return;
+            document.getElementById('displayNama').innerText = currentUser.nama;
+            document.getElementById('displaySekolah').innerText = currentUser.sekolah;
+        }
+
+        function updateHomeStats() {
+            if(!currentUser) return;
+            
+            // Calculate progress (excluding home itself)
+            const pages = NAV_ITEMS.map(i => i.id).filter(id => id !== 'beranda');
+            const visited = pages.filter(id => currentUser.progress[id]);
+            
+            document.getElementById('materiCount').innerText = `${visited.length} / ${pages.length} Bagian`;
+            
+            // Update List
+            const listEl = document.getElementById('materiList');
+            listEl.innerHTML = '';
+            pages.forEach(id => {
+                const label = NAV_ITEMS.find(i => i.id === id).label;
+                const isDone = currentUser.progress[id];
+                listEl.innerHTML += `
+                    <li class="flex items-center gap-2">
+                        <i data-lucide="${isDone ? 'check-circle-2' : 'circle'}" class="w-4 h-4 ${isDone ? 'text-emerald-500' : 'text-slate-300 dark:text-slate-600'}"></i>
+                        <span class="${isDone ? 'text-slate-800 dark:text-slate-200 line-through opacity-70' : ''}">${label}</span>
+                    </li>
+                `;
+            });
+
+            // Update Score Ring
+            const score = currentUser.lastScore;
+            const scoreText = document.getElementById('scoreText');
+            const scoreCircle = document.getElementById('scoreCircle');
+            
+            if (score !== null) {
+                scoreText.innerText = score;
+                // Calculate dashoffset (Circumference is ~289 for r=46)
+                const offset = 289 - (289 * score) / 100;
+                scoreCircle.style.strokeDashoffset = offset;
+                
+                // Color logic
+                scoreCircle.classList.remove('text-emerald-500', 'text-amber-500', 'text-red-500');
+                if(score >= 80) scoreCircle.classList.add('text-emerald-500');
+                else if(score >= 60) scoreCircle.classList.add('text-amber-500');
+                else scoreCircle.classList.add('text-red-500');
+            } else {
+                scoreText.innerText = '-';
+                scoreCircle.style.strokeDashoffset = 289;
+            }
+            
+            lucide.createIcons();
+        }
+
+        function updateProgressBar() {
+            if(!currentUser) return;
+            const total = NAV_ITEMS.length - 1; // excl home
+            const visited = Object.keys(currentUser.progress).filter(k => k !== 'beranda').length;
+            const percent = Math.round((visited / total) * 100);
+            
+            document.getElementById('progressText').innerText = percent + '%';
+            document.getElementById('mainProgressBar').style.width = percent + '%';
+            document.getElementById('headerProgress').style.width = percent + '%';
+        }
+
+        // --- IMAGE MODAL LOGIC ---
+        function openImageModal(title, imageUrl) {
+            playSound('click');
+            
+            // Reset UI
+            document.getElementById('modalImage').classList.add('hidden');
+            document.getElementById('modalLoading').classList.remove('hidden');
+            
+            // Set Data
+            document.getElementById('modalImageTitle').innerText = title;
+            document.getElementById('modalImage').src = imageUrl;
+            
+            // Show Modal
+            document.getElementById('imageModal').classList.remove('hidden');
+        }
+
+        function closeImageModal() {
+            document.getElementById('imageModal').classList.add('hidden');
+            // Reset image src so next time it triggers loading properly
+            setTimeout(() => {
+                document.getElementById('modalImage').src = "";
+            }, 300);
+        }
+
+        // --- CONTENT LOGIC (Accordion) ---
+        function buildRumusAccordion() {
+            const container = document.getElementById('accordionContainer');
+            let html = '';
+            
+            RUMUS_DATA.forEach((item, index) => {
+                html += `
+                <div class="bg-white dark:bg-darkCard rounded-2xl border border-slate-200 dark:border-slate-800 overflow-hidden shadow-sm transition-all duration-300">
+                    <button onclick="toggleAccordion('acc-${index}')" class="w-full px-6 py-4 flex items-center justify-between bg-slate-50 dark:bg-slate-800/50 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors focus:outline-none">
+                        <div class="flex items-center gap-4">
+                            <div class="w-10 h-10 rounded-xl bg-${item.color}-100 dark:bg-${item.color}-900/40 text-${item.color}-500 flex items-center justify-center">
+                                <i data-lucide="${item.icon}" class="w-5 h-5"></i>
+                            </div>
+                            <span class="font-bold text-lg dark:text-white">${item.nama}</span>
+                        </div>
+                        <i data-lucide="chevron-down" id="acc-icon-${index}" class="w-5 h-5 text-slate-400 transition-transform duration-300"></i>
+                    </button>
+                    <div id="acc-${index}" class="hidden px-6 py-5 bg-white dark:bg-darkCard border-t border-slate-100 dark:border-slate-800">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div class="bg-slate-50 dark:bg-slate-800 p-4 rounded-xl border border-slate-100 dark:border-slate-700">
+                                <span class="text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider block mb-2">Luas Permukaan</span>
+                                <div class="font-mono text-lg font-bold text-${item.color}-600 dark:text-${item.color}-400">${item.luas}</div>
+                            </div>
+                            <div class="bg-slate-50 dark:bg-slate-800 p-4 rounded-xl border border-slate-100 dark:border-slate-700">
+                                <span class="text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider block mb-2">Volume</span>
+                                <div class="font-mono text-lg font-bold text-${item.color}-600 dark:text-${item.color}-400">${item.volume}</div>
+                            </div>
+                        </div>
+                        <div class="mt-4 flex gap-2 items-start text-sm text-slate-600 dark:text-slate-300">
+                            <i data-lucide="info" class="w-4 h-4 mt-0.5 text-slate-400 flex-shrink-0"></i>
+                            <p>${item.ket}</p>
+                        </div>
+                    </div>
+                </div>
+                `;
+            });
+            container.innerHTML = html;
+        }
+
+        function toggleAccordion(id) {
+            playSound('click');
+            const content = document.getElementById(id);
+            const icon = document.getElementById(id.replace('acc-', 'acc-icon-'));
+            
+            if (content.classList.contains('hidden')) {
+                content.classList.remove('hidden');
+                content.classList.add('slide-up');
+                icon.style.transform = 'rotate(180deg)';
+            } else {
+                content.classList.add('hidden');
+                icon.style.transform = 'rotate(0deg)';
+            }
+        }
+
+        // --- QUIZ LOGIC ---
+        function startQuiz() {
+            playSound('click');
+            document.getElementById('quizIntro').classList.add('hidden');
+            document.getElementById('quizResult').classList.add('hidden');
+            document.getElementById('quizContainer').classList.remove('hidden');
+            
+            quizState = { current: 0, score: 0, active: true };
+            renderQuestion();
+        }
+
+        function renderQuestion() {
+            const q = QUIZ_DATA[quizState.current];
+            document.getElementById('qCurrent').innerText = quizState.current + 1;
+            document.getElementById('qProgress').style.width = `${((quizState.current + 1) / QUIZ_DATA.length) * 100}%`;
+            document.getElementById('qText').innerText = q.q;
+            
+            const optsContainer = document.getElementById('qOptions');
+            optsContainer.innerHTML = '';
+            
+            q.opts.forEach((opt, index) => {
+                optsContainer.innerHTML += `
+                    <button id="opt-${index}" onclick="answerQuiz(${index})" class="w-full text-left px-5 py-4 rounded-xl border-2 border-slate-200 dark:border-slate-700 hover:border-primary hover:bg-indigo-50 dark:hover:bg-indigo-900/20 transition-all font-medium dark:text-white relative overflow-hidden group">
+                        <span class="inline-block w-6 h-6 rounded bg-slate-100 dark:bg-slate-800 text-center leading-6 mr-3 text-sm group-hover:bg-primary group-hover:text-white transition-colors">${String.fromCharCode(65 + index)}</span>
+                        ${opt}
+                    </button>
+                `;
+            });
+
+            // Reset UI
+            document.getElementById('qFeedback').classList.add('hidden');
+            document.getElementById('btnNextQ').classList.add('hidden');
+            document.getElementById('btnFinishQ').classList.add('hidden');
+        }
+
+        function answerQuiz(selectedIndex) {
+            if(!quizState.active) return;
+            quizState.active = false; // Prevent multiple clicks
+            
+            const q = QUIZ_DATA[quizState.current];
+            const isCorrect = selectedIndex === q.ans;
+            
+            if(isCorrect) {
+                quizState.score += (100 / QUIZ_DATA.length);
+                playSound('correct');
+            } else {
+                playSound('wrong');
+            }
+
+            // Disable all options & highlight
+            q.opts.forEach((_, idx) => {
+                const btn = document.getElementById(`opt-${idx}`);
+                btn.onclick = null;
+                btn.classList.remove('hover:border-primary', 'hover:bg-indigo-50', 'dark:hover:bg-indigo-900/20');
+                
+                if (idx === q.ans) {
+                    btn.classList.add('border-emerald-500', 'bg-emerald-50', 'dark:bg-emerald-900/20', 'dark:border-emerald-500');
+                } else if (idx === selectedIndex && !isCorrect) {
+                    btn.classList.add('border-red-500', 'bg-red-50', 'dark:bg-red-900/20', 'dark:border-red-500');
+                } else {
+                    btn.classList.add('opacity-50');
+                }
+            });
+
+            // Show Feedback
+            const fbBox = document.getElementById('qFeedback');
+            const fbIcon = document.getElementById('qIcon');
+            fbBox.classList.remove('hidden', 'bg-emerald-100', 'text-emerald-800', 'bg-red-100', 'text-red-800', 'dark:bg-emerald-900/30', 'dark:text-emerald-300', 'dark:bg-red-900/30', 'dark:text-red-300');
+            
+            if (isCorrect) {
+                fbBox.classList.add('bg-emerald-100', 'text-emerald-800', 'dark:bg-emerald-900/30', 'dark:text-emerald-300');
+                document.getElementById('qResultText').innerText = "Benar!";
+                fbIcon.innerHTML = `<i data-lucide="check-circle" class="w-5 h-5"></i>`;
+            } else {
+                fbBox.classList.add('bg-red-100', 'text-red-800', 'dark:bg-red-900/30', 'dark:text-red-300');
+                document.getElementById('qResultText').innerText = "Kurang Tepat";
+                fbIcon.innerHTML = `<i data-lucide="x-circle" class="w-5 h-5"></i>`;
+            }
+            document.getElementById('qExplanation').innerText = q.exp;
+            lucide.createIcons();
+
+            // Show Next/Finish Button
+            if (quizState.current < QUIZ_DATA.length - 1) {
+                document.getElementById('btnNextQ').classList.remove('hidden');
+            } else {
+                document.getElementById('btnFinishQ').classList.remove('hidden');
+            }
+        }
+
+        function nextQuestion() {
+            playSound('click');
+            quizState.current++;
+            quizState.active = true;
+            renderQuestion();
+        }
+
+        function finishQuiz() {
+            playSound('tada');
+            document.getElementById('quizContainer').classList.add('hidden');
+            document.getElementById('quizResult').classList.remove('hidden');
+            
+            const finalScore = Math.round(quizState.score);
+            document.getElementById('finalScoreText').innerText = finalScore;
+            
+            // Save to localStorage
+            currentUser.lastScore = finalScore;
+            saveData();
+            
+            // UI Update
+            const circle = document.getElementById('finalScoreCircle');
+            const offset = 289 - (289 * finalScore) / 100;
+            
+            setTimeout(() => {
+                circle.style.strokeDashoffset = offset;
+            }, 100);
+
+            let msg = "Ayo Belajar Lagi!";
+            if(finalScore === 100) msg = "Sempurna! Luar Biasa!";
+            else if(finalScore >= 80) msg = "Hebat! Pertahankan!";
+            else if(finalScore >= 60) msg = "Bagus, Sedikit Lagi!";
+            document.getElementById('resultMessage').innerText = msg;
+            
+            updateHomeStats();
+        }
+
+        // --- REFLEKSI LOGIC ---
+        function loadRefleksiForm() {
+            if(currentUser && currentUser.refleksi) {
+                document.getElementById('ref1').value = currentUser.refleksi.ref1 || '';
+                document.getElementById('ref2').value = currentUser.refleksi.ref2 || '';
+            }
+            document.getElementById('refleksiSavedMsg').classList.add('hidden');
+        }
+
+        function handleRefleksi(e) {
+            e.preventDefault();
+            playSound('correct');
+            const r1 = document.getElementById('ref1').value;
+            const r2 = document.getElementById('ref2').value;
+            
+            currentUser.refleksi = { ref1: r1, ref2: r2 };
+            saveData();
+            
+            const msg = document.getElementById('refleksiSavedMsg');
+            msg.classList.remove('hidden');
+            setTimeout(() => { msg.classList.add('hidden'); }, 3000);
+        }
+
+        // --- UTILS (Dark Mode & Fullscreen) ---
+        function toggleDarkMode() {
+            playSound('click');
+            const html = document.documentElement;
+            html.classList.toggle('dark');
+            
+            const isDark = html.classList.contains('dark');
+            localStorage.setItem('theme', isDark ? 'dark' : 'light');
+            
+            const icon = document.getElementById('themeIcon');
+            icon.setAttribute('data-lucide', isDark ? 'sun' : 'moon');
+            lucide.createIcons();
+        }
+
+        function toggleFullscreen() {
+            playSound('click');
+            const icon = document.getElementById('fullscreenIcon');
+            if (!document.fullscreenElement) {
+                document.documentElement.requestFullscreen().catch(err => {
+                    console.log(`Error attempting to enable fullscreen: ${err.message}`);
+                });
+                icon.setAttribute('data-lucide', 'minimize');
+            } else {
+                document.exitFullscreen();
+                icon.setAttribute('data-lucide', 'maximize');
+            }
+            lucide.createIcons();
+        }
+    </script>
+</body>
+</html>
